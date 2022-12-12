@@ -1,0 +1,38 @@
+syntax = "proto3";
+package t500.motion;
+
+enum Leg {
+  LEG_FRONT_LEFT = 0;
+  LEG_FRONT_RIGHT = 1;
+  LEG_BACK_LEFT = 2;
+  LEG_BACK_RIGHT = 3;
+}
+
+message TorsoTranslate {
+  double delta_i = 1;
+  double delta_j = 2;
+  double delta_k = 3;
+}
+
+message TorsoRotate {
+  double delta_yaw = 1;
+  double delta_pitch = 2;
+  double delta_roll = 3;
+}
+
+message LegTranslate {
+  Leg leg = 1;
+  double delta_i = 2;
+  double delta_j = 3;
+  double delta_k = 4;
+}
+
+message Walk {
+  double speed = 1;
+  double duration = 2;
+}
+
+message Run {
+  double speed = 1;
+  double duration = 2;
+}

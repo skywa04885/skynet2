@@ -1,0 +1,130 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage[a4paper, margin=.5in]{geometry}
+\usepackage{amsfonts}
+
+\author{Luke A.C.A. Rieff}
+\title{Forward and Inverse kinematics for Robotic Rhino}
+\date{9-12-2022}
+
+\begin{document}
+    \maketitle
+
+    \section{Forward Kinematics}
+
+    Before we start creating the kinematic model for one of the robotic legs, we're going to define
+    the rotation matrices for rotations around the $x$, $y$ and $z$ axis.
+
+    \begin{equation}
+        R_x(\theta) =
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & \cos{\theta} & - \sin{\theta} & 0 \\
+            0 & \sin{\theta} & \cos{\theta} & 0 \\
+            0 & 0 & 0 & 1
+        \end{bmatrix}
+    \end{equation}
+
+    \begin{equation}
+        R_y(\theta) =
+        \begin{bmatrix}
+            \cos{\theta} & 0 & - \sin{\theta} & 0 \\
+            0 & 1 & 0 & 0 \\
+            - \sin{\theta} & 0 & \cos{\theta} & 0 \\
+            0 & 0 & 0 & 1
+        \end{bmatrix}
+    \end{equation}
+
+    \begin{equation}
+        R_z(\theta) =
+        \begin{bmatrix}
+            \cos{\theta} & - \sin{\theta} & 0 & 0 \\
+            \sin{\theta} & \cos{\theta} & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1
+        \end{bmatrix}
+    \end{equation}
+
+    Also we define the translation matrices for translating a point in the $x$, $y$ and $z$ axis.
+
+    \begin{equation}
+        T_x(x) =
+        \begin{bmatrix}
+            1 & 0 & 0 & x \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1
+        \end{bmatrix},
+        T_y(y) =
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & y \\
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1
+        \end{bmatrix},
+        T_z(z) =
+        \begin{bmatrix}
+            1 & 0 & 0 & 0 \\
+            0 & 1 & 0 & 0 \\
+            0 & 0 & 1 & z \\
+            0 & 0 & 0 & 1
+        \end{bmatrix},
+        T(x, y, z) = \begin{bmatrix}
+            1 & 0 & 0 & x \\
+            0 & 1 & 0 & y \\
+            0 & 0 & 1 & z \\
+            0 & 0 & 0 & 1
+        \end{bmatrix}
+    \end{equation}
+
+    The torso of the robotic rhino has the width $w$ and the length $h$ and has
+    an origin at the vector $O_{\mathrm{torso}}\ \epsilon \ \mathbb{R}^4$.
+    For its orientation in space we will use the euler angles yaw $\alpha$,
+    pitch $\beta$ and roll $\gamma$.
+    With these angles, the origin has its own
+    transformation matrix $T_{\mathrm{torso}}$ which will transform all the origins of the legs.
+
+    \begin{equation}
+        M_{\mathrm{torso}} = T(O_{\mathrm{torso}}) R_z(\gamma) R_y(\beta) R_x(\alpha)
+    \end{equation}
+
+    Each of the four legs has its own origin $O_{\mathrm{side}}$ which is attached to one of the
+    corners of the square torso.
+
+    \begin{equation}
+        O_{\mathrm{back-left}} = M_{\mathrm{torso}}
+        \begin{bmatrix}
+            - \frac{w}{2} \\
+            - \frac{h}{2} \\
+            0 \\
+            0
+        \end{bmatrix},
+        O_{\mathrm{back-right}} = M_{\mathrm{torso}}
+        \begin{bmatrix}
+            \frac{w}{2} \\
+            - \frac{h}{2} \\
+            0 \\
+            0
+        \end{bmatrix}
+    \end{equation}
+
+
+    \begin{equation}
+        O_{\mathrm{front-left}} = M_{\mathrm{torso}}
+        \begin{bmatrix}
+            - \frac{w}{2} \\
+            \frac{h}{2} \\
+            0 \\
+            0
+        \end{bmatrix},
+        O_{\mathrm{front-right}} = M_{\mathrm{torso}}
+        \begin{bmatrix}
+            \frac{w}{2} \\
+            \frac{h}{2} \\
+            0 \\
+            0
+        \end{bmatrix}
+    \end{equation}
+
+\end{document}

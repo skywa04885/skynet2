@@ -1,0 +1,6 @@
+syntax="proto3";
+
+message Log {
+  string origin = 1;
+  string message = 2;
+}

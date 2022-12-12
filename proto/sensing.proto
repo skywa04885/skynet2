@@ -1,0 +1,12 @@
+syntax = "proto3";
+package t500.sensing;
+
+message Orientation {
+  double pitch = 1;
+  double roll = 2;
+  double yaw = 3;
+}
+
+message Temperature {
+  double celcius = 1;
+}

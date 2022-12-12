@@ -1,0 +1,26 @@
+version: '3.9'
+name: 'robot-dog'
+services:
+  # Gets used for delivering messages between microservices.
+  skynet_message_queue:
+    ports:
+      - '5672:5672'
+    image: 'rabbitmq:latest'
+    networks:
+      - 'skynet'
+  # Gets used as the shared database across the microservices.
+  skynet_database:
+    ports:
+      - '3306:3306'
+    image: 'mariadb:latest'
+    environment:
+      MARIADB_ROOT_PASSWORD: 'LukeRoot2004@'
+      MARIADB_USER: 'luke'
+      MARIADB_PASSWORD: 'LukeR2004@'
+    networks:
+      - 'skynet'
+networks:
+  skynet:
+    name: 'skynet'
+    driver: 'bridge'
+
